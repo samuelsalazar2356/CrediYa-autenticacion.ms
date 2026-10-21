@@ -1,0 +1,11 @@
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+    }
+}
+
+plugins {
+    id 'co.com.bancolombia.cleanArchitecture.settings' version '5.0.0-beta1'
+}
+
+rootProject.name = 'CrediYa-autenticacion.ms'
