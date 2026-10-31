@@ -1,4 +1,4 @@
 
 dependencies {
+	implementation 'org.reactivecommons.utils:object-mapper:0.1.0'
 }
-
