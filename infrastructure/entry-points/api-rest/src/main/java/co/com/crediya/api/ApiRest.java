@@ -1,5 +1,6 @@
 package co.com.crediya.api;
 
+import co.com.crediya.api.dto.UsuarioResponseDTO;
 import co.com.crediya.model.usuario.Usuario;
 import co.com.crediya.usecase.registrarusuario.RegistrarUsuarioUseCase;
 import lombok.RequiredArgsConstructor;
@@ -22,12 +23,12 @@ public class ApiRest {
     private final RegistrarUsuarioUseCase registrarUsuarioUseCase;
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Usuario> registrarUsuario(@RequestBody Usuario usuario) {
+    public ResponseEntity<UsuarioResponseDTO> registrarUsuario(@RequestBody Usuario usuario) {
         log.info("Iniciando solicitud para registrar usuario con correo: {}", usuario.getCorreoElectronico());
 
         Usuario usuarioCreado = registrarUsuarioUseCase.registrar(usuario);
 
-        log.info("Usuario registrado exitosamente con ID: {}", usuarioCreado.getId());
-        return ResponseEntity.status(HttpStatus.CREATED).body(usuarioCreado);
+        log.info("Usuario registrado exitosamente con ID: {} y estado: {}", usuarioCreado.getId(), usuarioCreado.getEstado());
+        return ResponseEntity.status(HttpStatus.CREATED).body(UsuarioResponseDTO.exitoso(usuarioCreado));
     }
 }

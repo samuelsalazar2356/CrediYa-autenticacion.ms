@@ -11,6 +11,8 @@ import org.springframework.test.web.servlet.client.RestTestClient;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -37,8 +39,12 @@ class ApiRestTest {
                 .id(1L)
                 .nombres("Carlos")
                 .apellidos("Perez")
+                .fechaNacimiento(LocalDate.of(1995, 5, 15))
+                .telefono("3001234567")
                 .correoElectronico("carlos@correo.com")
                 .salarioBase(new BigDecimal("3500000"))
+                .estado("ACTIVO")
+                .fechaCreacion(LocalDateTime.now())
                 .build();
 
         when(registrarUsuarioUseCase.registrar(any(Usuario.class))).thenReturn(usuario);
@@ -50,8 +56,10 @@ class ApiRestTest {
                 .exchange()
                 .expectStatus().isCreated()
                 .expectBody()
-                .jsonPath("$.id").isEqualTo(1)
-                .jsonPath("$.nombres").isEqualTo("Carlos");
+                .jsonPath("$.mensaje").isEqualTo("Usuario registrado exitosamente en el sistema CrediYa")
+                .jsonPath("$.usuario.id").isEqualTo(1)
+                .jsonPath("$.usuario.nombres").isEqualTo("Carlos")
+                .jsonPath("$.usuario.estado").isEqualTo("ACTIVO");
     }
 
     @Test

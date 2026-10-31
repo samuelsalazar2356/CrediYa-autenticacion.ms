@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "usuarios")
@@ -31,4 +32,6 @@ public class UsuarioData {
     private String telefono;
     private String correoElectronico;
     private BigDecimal salarioBase;
+    private String estado;
+    private LocalDateTime fechaCreacion;
 }

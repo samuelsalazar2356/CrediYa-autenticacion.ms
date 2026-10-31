@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -23,4 +24,6 @@ public class Usuario {
     private String telefono;
     private String correoElectronico;
     private BigDecimal salarioBase;
+    private String estado;
+    private LocalDateTime fechaCreacion;
 }
