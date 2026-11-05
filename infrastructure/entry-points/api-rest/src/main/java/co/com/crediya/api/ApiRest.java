@@ -1,5 +1,6 @@
 package co.com.crediya.api;
 
+import co.com.crediya.api.dto.UsuarioRequestDTO;
 import co.com.crediya.api.dto.UsuarioResponseDTO;
 import co.com.crediya.model.usuario.Usuario;
 import co.com.crediya.usecase.registrarusuario.RegistrarUsuarioUseCase;
@@ -23,9 +24,10 @@ public class ApiRest {
     private final RegistrarUsuarioUseCase registrarUsuarioUseCase;
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<UsuarioResponseDTO> registrarUsuario(@RequestBody Usuario usuario) {
-        log.info("Iniciando solicitud para registrar usuario con correo: {}", usuario.getCorreoElectronico());
+    public ResponseEntity<UsuarioResponseDTO> registrarUsuario(@RequestBody UsuarioRequestDTO requestDTO) {
+        log.info("Iniciando solicitud para registrar usuario con correo: {}", requestDTO.getCorreoElectronico());
 
+        Usuario usuario = requestDTO.toDomain();
         Usuario usuarioCreado = registrarUsuarioUseCase.registrar(usuario);
 
         log.info("Usuario registrado exitosamente con ID: {} y estado: {}", usuarioCreado.getId(), usuarioCreado.getEstado());

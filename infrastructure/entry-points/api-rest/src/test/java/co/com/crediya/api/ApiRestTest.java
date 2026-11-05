@@ -1,5 +1,6 @@
 package co.com.crediya.api;
 
+import co.com.crediya.api.dto.UsuarioRequestDTO;
 import co.com.crediya.model.usuario.Usuario;
 import co.com.crediya.usecase.registrarusuario.RegistrarUsuarioUseCase;
 import org.junit.jupiter.api.BeforeEach;
@@ -35,7 +36,16 @@ class ApiRestTest {
 
     @Test
     void shouldRegisterUserSuccessfully() {
-        Usuario usuario = Usuario.builder()
+        UsuarioRequestDTO requestDTO = UsuarioRequestDTO.builder()
+                .nombres("Carlos")
+                .apellidos("Perez")
+                .fechaNacimiento(LocalDate.of(1995, 5, 15))
+                .telefono("3001234567")
+                .correoElectronico("carlos@correo.com")
+                .salarioBase(new BigDecimal("3500000"))
+                .build();
+
+        Usuario usuarioCreado = Usuario.builder()
                 .id(1L)
                 .nombres("Carlos")
                 .apellidos("Perez")
@@ -47,12 +57,12 @@ class ApiRestTest {
                 .fechaCreacion(LocalDateTime.now())
                 .build();
 
-        when(registrarUsuarioUseCase.registrar(any(Usuario.class))).thenReturn(usuario);
+        when(registrarUsuarioUseCase.registrar(any(Usuario.class))).thenReturn(usuarioCreado);
 
         client.post()
                 .uri("/api/v1/usuarios")
                 .contentType(MediaType.APPLICATION_JSON)
-                .body(usuario)
+                .body(requestDTO)
                 .exchange()
                 .expectStatus().isCreated()
                 .expectBody()
