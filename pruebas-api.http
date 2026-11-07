@@ -1,0 +1,115 @@
+### ============================================
+### PRUEBAS DE LA API - CrediYa Autenticacion
+### ============================================
+
+
+### PRUEBA 1: Registro exitoso (datos correctos)
+POST http://localhost:8080/api/v1/usuarios
+Content-Type: application/json
+
+{
+  "nombres": "samuel",
+  "apellidos": "salazar",
+  "fechaNacimiento": "2000-05-15",
+  "direccion": "Calle 45 # 23-10, Bogota",
+  "telefono": "3001234567",
+  "correoElectronico": "samuel@correo.com",
+  "salarioBase": 1500000,
+  "cedula": "1098765432"
+}
+
+
+### PRUEBA 2: Falla - correo ya registrado (duplicado)
+POST http://localhost:8080/api/v1/usuarios
+Content-Type: application/json
+
+{
+  "nombres": "Carlos",
+  "apellidos": "Ramirez",
+  "fechaNacimiento": "1995-03-20",
+  "direccion": "Carrera 10 # 5-20",
+  "telefono": "3109876543",
+  "correoElectronico": "samuel@correo.com",
+  "salarioBase": 2000000,
+  "cedula": "9876543210"
+}
+
+
+### PRUEBA 3: Falla - cedula ya registrada (duplicada)
+POST http://localhost:8080/api/v1/usuarios
+Content-Type: application/json
+
+{
+  "nombres": "Maria",
+  "apellidos": "Lopez",
+  "fechaNacimiento": "1998-07-10",
+  "direccion": "Avenida 68 # 12-45",
+  "telefono": "3201234567",
+  "correoElectronico": "maria@correo.com",
+  "salarioBase": 1800000,
+  "cedula": "1098765432"
+}
+
+
+### PRUEBA 4: Falla - nombre con numeros o simbolos
+POST http://localhost:8080/api/v1/usuarios
+Content-Type: application/json
+
+{
+  "nombres": "Sam123!!",
+  "apellidos": "Salazar",
+  "fechaNacimiento": "2000-05-15",
+  "direccion": "Calle 10",
+  "telefono": "3001234567",
+  "correoElectronico": "otro@correo.com",
+  "salarioBase": 1500000,
+  "cedula": "1122334455"
+}
+
+
+### PRUEBA 5: Falla - telefono con letras
+POST http://localhost:8080/api/v1/usuarios
+Content-Type: application/json
+
+{
+  "nombres": "Ana",
+  "apellidos": "Torres",
+  "fechaNacimiento": "2001-09-30",
+  "direccion": "Calle 20",
+  "telefono": "300ABC4567",
+  "correoElectronico": "ana@correo.com",
+  "salarioBase": 1200000,
+  "cedula": "5566778899"
+}
+
+
+### PRUEBA 6: Falla - menor de edad (menos de 18 anos)
+POST http://localhost:8080/api/v1/usuarios
+Content-Type: application/json
+
+{
+  "nombres": "Juan",
+  "apellidos": "Perez",
+  "fechaNacimiento": "2015-01-01",
+  "direccion": "Calle 30",
+  "telefono": "3151234567",
+  "correoElectronico": "juan@correo.com",
+  "salarioBase": 1000000,
+  "cedula": "9988776655"
+}
+
+
+### PRUEBA 7: Segundo registro exitoso (correo y cedula nuevos)
+POST http://localhost:8080/api/v1/usuarios
+Content-Type: application/json
+
+{
+  "nombres": "laura",
+  "apellidos": "martinez garcia",
+  "fechaNacimiento": "1995-11-20",
+  "direccion": "Transversal 50 # 80-15, Medellin",
+  "telefono": "3127654321",
+  "correoElectronico": "laura@correo.com",
+  "salarioBase": 3500000.50,
+  "cedula": "43567890"
+}

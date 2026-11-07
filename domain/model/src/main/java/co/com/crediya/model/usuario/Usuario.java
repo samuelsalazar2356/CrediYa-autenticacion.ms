@@ -17,6 +17,7 @@ import java.time.LocalDateTime;
 @Builder(toBuilder = true)
 public class Usuario {
     private Long id;
+    private String cedula;
     private String nombres;
     private String apellidos;
     private LocalDate fechaNacimiento;

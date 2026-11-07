@@ -23,6 +23,7 @@ public class UsuarioRequestDTO {
     private String telefono;
     private String correoElectronico;
     private BigDecimal salarioBase;
+    private String cedula;
 
     public Usuario toDomain() {
         return Usuario.builder()
@@ -33,6 +34,7 @@ public class UsuarioRequestDTO {
                 .telefono(this.telefono)
                 .correoElectronico(this.correoElectronico)
                 .salarioBase(this.salarioBase)
+                .cedula(this.cedula)
                 .build();
     }
 }

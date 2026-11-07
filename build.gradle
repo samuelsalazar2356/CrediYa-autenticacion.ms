@@ -28,5 +28,10 @@ subprojects {
     // Remove once it has been updated in Spring Boot
     ext['jackson-2-bom.version'] = "2.22.3"
     ext['jackson-bom.version'] = "3.2.3"
+
+    // Forzar codificacion UTF-8 en compilacion Java para aceptar tildes y caracteres especiales
+    tasks.withType(JavaCompile).configureEach {
+        options.encoding = 'UTF-8'
+    }
 }
 

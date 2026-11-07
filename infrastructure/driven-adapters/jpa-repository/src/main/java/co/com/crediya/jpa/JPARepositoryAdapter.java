@@ -26,4 +26,10 @@ public class JPARepositoryAdapter extends AdapterOperations<Usuario, UsuarioData
     public boolean existePorCorreoElectronico(String correoElectronico) {
         return repository.existsByCorreoElectronico(correoElectronico);
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public boolean existePorCedula(String cedula) {
+        return repository.existsByCedula(cedula);
+    }
 }
