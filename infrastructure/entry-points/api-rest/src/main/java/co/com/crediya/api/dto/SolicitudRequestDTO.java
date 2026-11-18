@@ -26,6 +26,38 @@ public class SolicitudRequestDTO {
     private Integer plazo;
     private String tipoPrestamo;
 
+    public String getDocumentoIdentidad() {
+        return documentoIdentidad;
+    }
+
+    public void setDocumentoIdentidad(String documentoIdentidad) {
+        this.documentoIdentidad = documentoIdentidad;
+    }
+
+    public BigDecimal getMonto() {
+        return monto;
+    }
+
+    public void setMonto(BigDecimal monto) {
+        this.monto = monto;
+    }
+
+    public Integer getPlazo() {
+        return plazo;
+    }
+
+    public void setPlazo(Integer plazo) {
+        this.plazo = plazo;
+    }
+
+    public String getTipoPrestamo() {
+        return tipoPrestamo;
+    }
+
+    public void setTipoPrestamo(String tipoPrestamo) {
+        this.tipoPrestamo = tipoPrestamo;
+    }
+
     /**
      * Transforma el DTO de transporte al modelo de dominio.
      *

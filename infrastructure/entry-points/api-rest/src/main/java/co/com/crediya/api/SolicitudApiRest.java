@@ -4,7 +4,6 @@ import co.com.crediya.api.dto.SolicitudRequestDTO;
 import co.com.crediya.api.dto.SolicitudResponseDTO;
 import co.com.crediya.model.solicitud.Solicitud;
 import co.com.crediya.usecase.registrarsolicitud.RegistrarSolicitudUseCase;
-import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -21,11 +20,14 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping(value = "/api/v1/solicitud", produces = MediaType.APPLICATION_JSON_VALUE)
-@RequiredArgsConstructor
 public class SolicitudApiRest {
 
     private static final Logger log = LoggerFactory.getLogger(SolicitudApiRest.class);
     private final RegistrarSolicitudUseCase registrarSolicitudUseCase;
+
+    public SolicitudApiRest(RegistrarSolicitudUseCase registrarSolicitudUseCase) {
+        this.registrarSolicitudUseCase = registrarSolicitudUseCase;
+    }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<SolicitudResponseDTO> radicarSolicitud(@RequestBody SolicitudRequestDTO requestDTO) {

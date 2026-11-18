@@ -31,6 +31,46 @@ public class SolicitudResponseDTO {
     private LocalDateTime fechaCreacion;
     private LocalDateTime timestamp;
 
+    public String getMensaje() {
+        return mensaje;
+    }
+
+    public Long getIdSolicitud() {
+        return idSolicitud;
+    }
+
+    public String getDocumentoIdentidad() {
+        return documentoIdentidad;
+    }
+
+    public BigDecimal getMonto() {
+        return monto;
+    }
+
+    public String getMontoFormateado() {
+        return montoFormateado;
+    }
+
+    public Integer getPlazoMeses() {
+        return plazoMeses;
+    }
+
+    public String getTipoPrestamo() {
+        return tipoPrestamo;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public LocalDateTime getFechaCreacion() {
+        return fechaCreacion;
+    }
+
+    public LocalDateTime getTimestamp() {
+        return timestamp;
+    }
+
     public static SolicitudResponseDTO exitoso(Solicitud solicitud) {
         String montoFormateado = null;
         if (solicitud.getMonto() != null) {

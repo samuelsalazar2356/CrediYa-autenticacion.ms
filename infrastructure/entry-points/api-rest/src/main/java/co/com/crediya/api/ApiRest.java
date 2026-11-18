@@ -4,7 +4,6 @@ import co.com.crediya.api.dto.UsuarioRequestDTO;
 import co.com.crediya.api.dto.UsuarioResponseDTO;
 import co.com.crediya.model.usuario.Usuario;
 import co.com.crediya.usecase.registrarusuario.RegistrarUsuarioUseCase;
-import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -17,11 +16,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(value = "/api/v1/usuarios", produces = MediaType.APPLICATION_JSON_VALUE)
-@RequiredArgsConstructor
 public class ApiRest {
 
     private static final Logger log = LoggerFactory.getLogger(ApiRest.class);
     private final RegistrarUsuarioUseCase registrarUsuarioUseCase;
+
+    public ApiRest(RegistrarUsuarioUseCase registrarUsuarioUseCase) {
+        this.registrarUsuarioUseCase = registrarUsuarioUseCase;
+    }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UsuarioResponseDTO> registrarUsuario(@RequestBody UsuarioRequestDTO requestDTO) {
