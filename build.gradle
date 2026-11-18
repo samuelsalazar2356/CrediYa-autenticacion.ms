@@ -25,6 +25,7 @@ allprojects {
 }
 
 subprojects {
+    apply plugin: 'idea'
     // Remove once it has been updated in Spring Boot
     ext['jackson-2-bom.version'] = "2.22.3"
     ext['jackson-bom.version'] = "3.2.3"
