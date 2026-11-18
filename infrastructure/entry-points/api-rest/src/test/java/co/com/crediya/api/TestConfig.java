@@ -1,6 +1,7 @@
 package co.com.crediya.api;
 
 import co.com.crediya.api.config.CorsConfig;
+import co.com.crediya.usecase.registrarsolicitud.RegistrarSolicitudUseCase;
 import co.com.crediya.usecase.registrarusuario.RegistrarUsuarioUseCase;
 import org.mockito.Mockito;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -19,11 +20,16 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
                 type = FilterType.ASSIGNABLE_TYPE,
                 classes = CorsConfig.class
         ))
-@Import({ApiRest.class, GlobalExceptionHandler.class})
+@Import({ApiRest.class, SolicitudApiRest.class, GlobalExceptionHandler.class})
 public class TestConfig {
 
     @Bean
     public RegistrarUsuarioUseCase registrarUsuarioUseCase() {
         return Mockito.mock(RegistrarUsuarioUseCase.class);
+    }
+
+    @Bean
+    public RegistrarSolicitudUseCase registrarSolicitudUseCase() {
+        return Mockito.mock(RegistrarSolicitudUseCase.class);
     }
 }

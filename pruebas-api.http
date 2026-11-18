@@ -113,3 +113,82 @@ Content-Type: application/json
   "salarioBase": 3500000.50,
   "cedula": "43567890"
 }
+
+
+### ============================================
+### PRUEBAS DE LA HISTORIA DE USUARIO 2: SOLICITUDES
+### Endpoint: POST /api/v1/solicitud
+### ============================================
+
+
+### PRUEBA 8 (HU02): Radicacion exitosa de solicitud de prestamo
+POST http://localhost:8080/api/v1/solicitud
+Content-Type: application/json
+
+{
+  "documentoIdentidad": "1098765432",
+  "monto": 8500000.00,
+  "plazo": 36,
+  "tipoPrestamo": "PERSONAL"
+}
+
+
+### PRUEBA 9 (HU02): Radicacion exitosa prestamo Vehiculo
+POST http://localhost:8080/api/v1/solicitud
+Content-Type: application/json
+
+{
+  "documentoIdentidad": "1099887766",
+  "monto": 35000000.00,
+  "plazo": 60,
+  "tipoPrestamo": "VEHICULO"
+}
+
+
+### PRUEBA 10 (HU02): Falla - Tipo de prestamo invalido o inexistente
+POST http://localhost:8080/api/v1/solicitud
+Content-Type: application/json
+
+{
+  "documentoIdentidad": "1098765432",
+  "monto": 5000000.00,
+  "plazo": 24,
+  "tipoPrestamo": "TARJETA_ORO"
+}
+
+
+### PRUEBA 11 (HU02): Falla - Monto inferior al minimo permitido ($100.000)
+POST http://localhost:8080/api/v1/solicitud
+Content-Type: application/json
+
+{
+  "documentoIdentidad": "1098765432",
+  "monto": 25000.00,
+  "plazo": 12,
+  "tipoPrestamo": "LIBRE_INVERSION"
+}
+
+
+### PRUEBA 12 (HU02): Falla - Plazo fuera de rango (mayor a 120 meses)
+POST http://localhost:8080/api/v1/solicitud
+Content-Type: application/json
+
+{
+  "documentoIdentidad": "1098765432",
+  "monto": 15000000.00,
+  "plazo": 180,
+  "tipoPrestamo": "VIVIENDA"
+}
+
+
+### PRUEBA 13 (HU02): Falla - Documento de identidad con caracteres invalidos o emojis
+POST http://localhost:8080/api/v1/solicitud
+Content-Type: application/json
+
+{
+  "documentoIdentidad": "10987ABC<>;",
+  "monto": 5000000.00,
+  "plazo": 24,
+  "tipoPrestamo": "PERSONAL"
+}
+
