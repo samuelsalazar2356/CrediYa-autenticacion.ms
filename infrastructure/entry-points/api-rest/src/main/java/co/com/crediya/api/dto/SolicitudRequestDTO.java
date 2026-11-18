@@ -2,11 +2,6 @@ package co.com.crediya.api.dto;
 
 import co.com.crediya.model.solicitud.Solicitud;
 import co.com.crediya.model.solicitud.TipoPrestamo;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.math.BigDecimal;
 
@@ -14,17 +9,22 @@ import java.math.BigDecimal;
  * Contrato de entrada para la radicacion de solicitudes de credito.
  * Aplica estrategia fail-fast para desacoplar el protocolo HTTP del dominio.
  */
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class SolicitudRequestDTO {
 
     private String documentoIdentidad;
     private BigDecimal monto;
     private Integer plazo;
     private String tipoPrestamo;
+
+    public SolicitudRequestDTO() {
+    }
+
+    public SolicitudRequestDTO(String documentoIdentidad, BigDecimal monto, Integer plazo, String tipoPrestamo) {
+        this.documentoIdentidad = documentoIdentidad;
+        this.monto = monto;
+        this.plazo = plazo;
+        this.tipoPrestamo = tipoPrestamo;
+    }
 
     public String getDocumentoIdentidad() {
         return documentoIdentidad;
@@ -56,6 +56,41 @@ public class SolicitudRequestDTO {
 
     public void setTipoPrestamo(String tipoPrestamo) {
         this.tipoPrestamo = tipoPrestamo;
+    }
+
+    public static SolicitudRequestDTOBuilder builder() {
+        return new SolicitudRequestDTOBuilder();
+    }
+
+    public static class SolicitudRequestDTOBuilder {
+        private String documentoIdentidad;
+        private BigDecimal monto;
+        private Integer plazo;
+        private String tipoPrestamo;
+
+        public SolicitudRequestDTOBuilder documentoIdentidad(String documentoIdentidad) {
+            this.documentoIdentidad = documentoIdentidad;
+            return this;
+        }
+
+        public SolicitudRequestDTOBuilder monto(BigDecimal monto) {
+            this.monto = monto;
+            return this;
+        }
+
+        public SolicitudRequestDTOBuilder plazo(Integer plazo) {
+            this.plazo = plazo;
+            return this;
+        }
+
+        public SolicitudRequestDTOBuilder tipoPrestamo(String tipoPrestamo) {
+            this.tipoPrestamo = tipoPrestamo;
+            return this;
+        }
+
+        public SolicitudRequestDTO build() {
+            return new SolicitudRequestDTO(documentoIdentidad, monto, plazo, tipoPrestamo);
+        }
     }
 
     /**
