@@ -25,7 +25,7 @@ public class ApiRest {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UsuarioResponseDTO> registrarUsuario(@RequestBody UsuarioRequestDTO requestDTO) {
-        log.info("Iniciando solicitud para registrar usuario con correo: {}", requestDTO.getCorreoElectronico());
+        log.info("Iniciando procesamiento de solicitud para registro de nuevo usuario");
 
         Usuario usuario = requestDTO.toDomain();
         Usuario usuarioCreado = registrarUsuarioUseCase.registrar(usuario);

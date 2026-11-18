@@ -47,8 +47,7 @@ public class GlobalExceptionHandler {
         respuesta.put("timestamp", LocalDateTime.now());
         respuesta.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
         respuesta.put("error", "Error Interno");
-        respuesta.put("mensaje", ex.getMessage() != null ? ex.getMessage() : "Ocurrió un error inesperado al procesar la solicitud");
-        respuesta.put("detalle", ex.getClass().getName());
+        respuesta.put("mensaje", "Ocurrió un error inesperado al procesar la solicitud");
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(respuesta);
     }
 }
