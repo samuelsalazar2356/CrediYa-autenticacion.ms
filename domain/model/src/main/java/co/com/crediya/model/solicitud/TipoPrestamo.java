@@ -2,6 +2,7 @@ package co.com.crediya.model.solicitud;
 
 import co.com.crediya.model.usuario.excepcion.BusinessException;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 
 /**
@@ -9,20 +10,26 @@ import java.util.Arrays;
  * Invariante: Un prestamo solo puede registrarse bajo una modalidad formalmente aprobada.
  */
 public enum TipoPrestamo {
-    PERSONAL("Personal"),
-    VEHICULO("Vehiculo"),
-    VIVIENDA("Vivienda"),
-    LIBRE_INVERSION("Libre Inversion"),
-    EDUCATIVO("Educativo");
+    PERSONAL("Personal", new BigDecimal("0.0150")),
+    VEHICULO("Vehiculo", new BigDecimal("0.0120")),
+    VIVIENDA("Vivienda", new BigDecimal("0.0090")),
+    LIBRE_INVERSION("Libre Inversion", new BigDecimal("0.0180")),
+    EDUCATIVO("Educativo", new BigDecimal("0.0100"));
 
     private final String descripcion;
+    private final BigDecimal tasaInteresMensual;
 
-    TipoPrestamo(String descripcion) {
+    TipoPrestamo(String descripcion, BigDecimal tasaInteresMensual) {
         this.descripcion = descripcion;
+        this.tasaInteresMensual = tasaInteresMensual;
     }
 
     public String getDescripcion() {
         return descripcion;
+    }
+
+    public BigDecimal getTasaInteresMensual() {
+        return tasaInteresMensual;
     }
 
     /**

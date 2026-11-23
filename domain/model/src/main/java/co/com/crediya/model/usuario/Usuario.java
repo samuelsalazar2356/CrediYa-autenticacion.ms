@@ -21,6 +21,8 @@ public class Usuario {
     private BigDecimal salarioBase;
     private String estado;
     private LocalDateTime fechaCreacion;
+    private String contrasenaHash;
+    private RolUsuario rol;
 
     public Usuario() {
     }
@@ -28,7 +30,8 @@ public class Usuario {
     public Usuario(Long id, String cedula, String nombres, String apellidos,
                    LocalDate fechaNacimiento, String direccion, String telefono,
                    String correoElectronico, BigDecimal salarioBase,
-                   String estado, LocalDateTime fechaCreacion) {
+                   String estado, LocalDateTime fechaCreacion,
+                   String contrasenaHash, RolUsuario rol) {
         this.id = id;
         this.cedula = cedula;
         this.nombres = nombres;
@@ -40,6 +43,8 @@ public class Usuario {
         this.salarioBase = salarioBase;
         this.estado = estado;
         this.fechaCreacion = fechaCreacion;
+        this.contrasenaHash = contrasenaHash;
+        this.rol = rol;
     }
 
     public Long getId() {
@@ -130,6 +135,22 @@ public class Usuario {
         this.fechaCreacion = fechaCreacion;
     }
 
+    public String getContrasenaHash() {
+        return contrasenaHash;
+    }
+
+    public void setContrasenaHash(String contrasenaHash) {
+        this.contrasenaHash = contrasenaHash;
+    }
+
+    public RolUsuario getRol() {
+        return rol;
+    }
+
+    public void setRol(RolUsuario rol) {
+        this.rol = rol;
+    }
+
     public static UsuarioBuilder builder() {
         return new UsuarioBuilder();
     }
@@ -146,7 +167,9 @@ public class Usuario {
                 .correoElectronico(this.correoElectronico)
                 .salarioBase(this.salarioBase)
                 .estado(this.estado)
-                .fechaCreacion(this.fechaCreacion);
+                .fechaCreacion(this.fechaCreacion)
+                .contrasenaHash(this.contrasenaHash)
+                .rol(this.rol);
     }
 
     public static class UsuarioBuilder {
@@ -161,6 +184,8 @@ public class Usuario {
         private BigDecimal salarioBase;
         private String estado;
         private LocalDateTime fechaCreacion;
+        private String contrasenaHash;
+        private RolUsuario rol;
 
         public UsuarioBuilder id(Long id) {
             this.id = id;
@@ -217,9 +242,20 @@ public class Usuario {
             return this;
         }
 
+        public UsuarioBuilder contrasenaHash(String contrasenaHash) {
+            this.contrasenaHash = contrasenaHash;
+            return this;
+        }
+
+        public UsuarioBuilder rol(RolUsuario rol) {
+            this.rol = rol;
+            return this;
+        }
+
         public Usuario build() {
             return new Usuario(id, cedula, nombres, apellidos, fechaNacimiento,
-                    direccion, telefono, correoElectronico, salarioBase, estado, fechaCreacion);
+                    direccion, telefono, correoElectronico, salarioBase, estado, fechaCreacion,
+                    contrasenaHash, rol);
         }
     }
 }

@@ -1,5 +1,6 @@
 package co.com.crediya.api.dto;
 
+import co.com.crediya.model.usuario.RolUsuario;
 import co.com.crediya.model.usuario.Usuario;
 
 import java.math.BigDecimal;
@@ -19,13 +20,15 @@ public class UsuarioRequestDTO {
     private String correoElectronico;
     private BigDecimal salarioBase;
     private String cedula;
+    private String contrasena;
+    private String rol;
 
     public UsuarioRequestDTO() {
     }
 
     public UsuarioRequestDTO(String nombres, String apellidos, LocalDate fechaNacimiento,
                              String direccion, String telefono, String correoElectronico,
-                             BigDecimal salarioBase, String cedula) {
+                             BigDecimal salarioBase, String cedula, String contrasena, String rol) {
         this.nombres = nombres;
         this.apellidos = apellidos;
         this.fechaNacimiento = fechaNacimiento;
@@ -34,6 +37,8 @@ public class UsuarioRequestDTO {
         this.correoElectronico = correoElectronico;
         this.salarioBase = salarioBase;
         this.cedula = cedula;
+        this.contrasena = contrasena;
+        this.rol = rol;
     }
 
     public String getNombres() {
@@ -100,6 +105,22 @@ public class UsuarioRequestDTO {
         this.cedula = cedula;
     }
 
+    public String getContrasena() {
+        return contrasena;
+    }
+
+    public void setContrasena(String contrasena) {
+        this.contrasena = contrasena;
+    }
+
+    public String getRol() {
+        return rol;
+    }
+
+    public void setRol(String rol) {
+        this.rol = rol;
+    }
+
     public static UsuarioRequestDTOBuilder builder() {
         return new UsuarioRequestDTOBuilder();
     }
@@ -113,6 +134,8 @@ public class UsuarioRequestDTO {
         private String correoElectronico;
         private BigDecimal salarioBase;
         private String cedula;
+        private String contrasena;
+        private String rol;
 
         public UsuarioRequestDTOBuilder nombres(String nombres) {
             this.nombres = nombres;
@@ -154,9 +177,19 @@ public class UsuarioRequestDTO {
             return this;
         }
 
+        public UsuarioRequestDTOBuilder contrasena(String contrasena) {
+            this.contrasena = contrasena;
+            return this;
+        }
+
+        public UsuarioRequestDTOBuilder rol(String rol) {
+            this.rol = rol;
+            return this;
+        }
+
         public UsuarioRequestDTO build() {
             return new UsuarioRequestDTO(nombres, apellidos, fechaNacimiento, direccion,
-                    telefono, correoElectronico, salarioBase, cedula);
+                    telefono, correoElectronico, salarioBase, cedula, contrasena, rol);
         }
     }
 
@@ -166,6 +199,7 @@ public class UsuarioRequestDTO {
      * @return Entidad Usuario lista para ser procesada por el caso de uso.
      */
     public Usuario toDomain() {
+        RolUsuario rolFinal = this.rol != null ? RolUsuario.fromString(this.rol) : RolUsuario.CLIENTE;
         return Usuario.builder()
                 .nombres(this.nombres)
                 .apellidos(this.apellidos)
@@ -175,6 +209,8 @@ public class UsuarioRequestDTO {
                 .correoElectronico(this.correoElectronico)
                 .salarioBase(this.salarioBase)
                 .cedula(this.cedula)
+                .contrasenaHash(this.contrasena)
+                .rol(rolFinal)
                 .build();
     }
 }

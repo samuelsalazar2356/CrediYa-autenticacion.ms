@@ -58,6 +58,12 @@ public class UsuarioData {
     @Column(name = "fechacreacion", nullable = false, updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime fechaCreacion;
 
+    @Column(name = "contrasenahash", length = 255)
+    private String contrasenaHash;
+
+    @Column(name = "rol", length = 20)
+    private String rol;
+
     @PrePersist
     public void prePersist() {
         if (this.fechaCreacion == null) {
@@ -65,6 +71,9 @@ public class UsuarioData {
         }
         if (this.estado == null || this.estado.trim().isEmpty()) {
             this.estado = "ACTIVO";
+        }
+        if (this.rol == null || this.rol.trim().isEmpty()) {
+            this.rol = "CLIENTE";
         }
     }
 }

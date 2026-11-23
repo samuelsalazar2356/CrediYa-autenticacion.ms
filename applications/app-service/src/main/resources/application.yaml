@@ -30,3 +30,7 @@ management:
         enabled: true
 cors:
   allowed-origins: "http://localhost:4200,http://localhost:8080"
+security:
+  jwt:
+    secret: "CrediYaSuperSecretKeyForJwtAuthentication2026ProductionStandardMustBe256BitsLong!"
+    expiration-minutes: 60

@@ -1,7 +1,9 @@
 package co.com.crediya.model.solicitud.gateways;
 
+import co.com.crediya.model.comun.Pagina;
 import co.com.crediya.model.solicitud.Solicitud;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -13,4 +15,8 @@ public interface SolicitudRepository {
     Solicitud guardar(Solicitud solicitud);
 
     Optional<Solicitud> buscarPorId(Long id);
+
+    Pagina<Solicitud> buscarPorEstadosPaginado(List<String> estados, int page, int size);
+
+    List<Solicitud> buscarAprobadasPorDocumento(String documentoIdentidad);
 }

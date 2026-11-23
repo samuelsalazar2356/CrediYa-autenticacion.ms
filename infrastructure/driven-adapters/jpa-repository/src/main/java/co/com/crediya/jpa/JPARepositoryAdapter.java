@@ -7,6 +7,8 @@ import org.reactivecommons.utils.ObjectMapper;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Repository
 public class JPARepositoryAdapter extends AdapterOperations<Usuario, UsuarioData, Long, JPARepository>
         implements UsuarioRepository {
@@ -31,5 +33,17 @@ public class JPARepositoryAdapter extends AdapterOperations<Usuario, UsuarioData
     @Transactional(readOnly = true)
     public boolean existePorCedula(String cedula) {
         return repository.existsByCedula(cedula);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Optional<Usuario> buscarPorCorreoElectronico(String correoElectronico) {
+        return repository.findByCorreoElectronico(correoElectronico).map(this::toEntity);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Optional<Usuario> buscarPorCedula(String cedula) {
+        return repository.findByCedula(cedula).map(this::toEntity);
     }
 }
