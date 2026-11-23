@@ -1,6 +1,7 @@
 package co.com.crediya.api;
 
 import co.com.crediya.api.config.CorsConfig;
+import co.com.crediya.api.config.OpenApiConfig;
 import co.com.crediya.api.security.InMemoryTokenRevocationAdapter;
 import co.com.crediya.api.security.JwtAuthorizationFilter;
 import co.com.crediya.api.security.JwtTokenProviderAdapter;
@@ -28,7 +29,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @ComponentScan(basePackages = "co.com.crediya.api",
         excludeFilters = @ComponentScan.Filter(
                 type = FilterType.ASSIGNABLE_TYPE,
-                classes = {CorsConfig.class, JwtAuthorizationFilter.class, LoginRateLimiterFilter.class}
+                classes = {CorsConfig.class, JwtAuthorizationFilter.class, LoginRateLimiterFilter.class, OpenApiConfig.class}
         ))
 @Import({ApiRest.class, SolicitudApiRest.class, LoginApiRest.class, GlobalExceptionHandler.class})
 public class TestConfig {

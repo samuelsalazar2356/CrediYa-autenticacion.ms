@@ -54,7 +54,9 @@ public class JwtAuthorizationFilter implements Filter {
                 path.startsWith("/api/v1/login") ||
                 path.startsWith("/actuator") ||
                 path.startsWith("/swagger-ui") ||
-                path.startsWith("/v3/api-docs")) {
+                path.startsWith("/v3/api-docs") ||
+                path.startsWith("/webjars") ||
+                path.equals("/swagger-ui.html")) {
             chain.doFilter(request, response);
             return;
         }
