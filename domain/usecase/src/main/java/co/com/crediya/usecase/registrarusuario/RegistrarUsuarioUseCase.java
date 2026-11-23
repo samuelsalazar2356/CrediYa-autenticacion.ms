@@ -22,10 +22,6 @@ public class RegistrarUsuarioUseCase {
         this.passwordEncoderGateway = passwordEncoderGateway;
     }
 
-    public RegistrarUsuarioUseCase(UsuarioRepository usuarioRepository) {
-        this(usuarioRepository, null);
-    }
-
     public Usuario registrar(Usuario usuario) {
         // 1. Validaciones intrinsecas del modelo (formatos, seguridad y normalizacion)
         Usuario usuarioNormalizado = UsuarioValidador.validarYNormalizar(usuario);
