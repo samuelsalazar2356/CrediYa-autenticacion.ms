@@ -3,6 +3,7 @@ package co.com.crediya.api.security;
 import co.com.crediya.model.usuario.RolUsuario;
 import co.com.crediya.model.usuario.TokenClaims;
 import co.com.crediya.model.usuario.gateways.TokenProviderGateway;
+import co.com.crediya.model.usuario.gateways.TokenRevocationGateway;
 import jakarta.servlet.Filter;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -20,6 +21,7 @@ import java.time.LocalDateTime;
 
 /**
  * Filtro de autorizacion para la validacion de tokens JWT y control de acceso RBAC.
+ * Incluye verificacion activa contra la lista de revocacion (Blacklist).
  */
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE + 10)
@@ -27,11 +29,15 @@ import java.time.LocalDateTime;
 public class JwtAuthorizationFilter implements Filter {
 
     public static final String CLAIMS_ATTRIBUTE = "TOKEN_CLAIMS";
+    public static final String RAW_TOKEN_ATTRIBUTE = "RAW_BEARER_TOKEN";
 
     private final TokenProviderGateway tokenProviderGateway;
+    private final TokenRevocationGateway tokenRevocationGateway;
 
-    public JwtAuthorizationFilter(TokenProviderGateway tokenProviderGateway) {
+    public JwtAuthorizationFilter(TokenProviderGateway tokenProviderGateway,
+                                  TokenRevocationGateway tokenRevocationGateway) {
         this.tokenProviderGateway = tokenProviderGateway;
+        this.tokenRevocationGateway = tokenRevocationGateway;
     }
 
     @Override
@@ -62,6 +68,14 @@ public class JwtAuthorizationFilter implements Filter {
         }
 
         String token = authHeader.substring(7).trim();
+
+        // 3. Verificacion de revocacion inmediata (Blacklist)
+        if (tokenRevocationGateway != null && tokenRevocationGateway.estaRevocado(token)) {
+            escribirError(httpResponse, HttpServletResponse.SC_UNAUTHORIZED,
+                    "No Autorizado", "El token de sesion ha sido revocado explicitamente");
+            return;
+        }
+
         TokenClaims claims;
         try {
             claims = tokenProviderGateway.validarToken(token);
@@ -72,6 +86,7 @@ public class JwtAuthorizationFilter implements Filter {
         }
 
         httpRequest.setAttribute(CLAIMS_ATTRIBUTE, claims);
+        httpRequest.setAttribute(RAW_TOKEN_ATTRIBUTE, token);
 
         // 3. Reglas de control de acceso por endpoint (RBAC)
         if (path.startsWith("/api/v1/usuarios") && "POST".equalsIgnoreCase(method)) {

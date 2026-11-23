@@ -16,4 +16,7 @@ public interface SolicitudJPARepository extends JpaRepository<SolicitudData, Lon
 
     @Query("SELECT s FROM SolicitudData s WHERE s.documentoIdentidad = :documento AND LOWER(s.estado) LIKE '%aprobad%'")
     List<SolicitudData> findAprobadasByDocumentoIdentidad(@Param("documento") String documentoIdentidad);
+
+    @Query("SELECT s FROM SolicitudData s WHERE s.documentoIdentidad IN :documentos AND LOWER(s.estado) LIKE '%aprobad%'")
+    List<SolicitudData> findAprobadasByDocumentosIdentidad(@Param("documentos") Collection<String> documentosIdentidad);
 }

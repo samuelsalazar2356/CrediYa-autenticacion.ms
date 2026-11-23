@@ -1,11 +1,14 @@
 package co.com.crediya.api;
 
 import co.com.crediya.api.config.CorsConfig;
+import co.com.crediya.api.security.InMemoryTokenRevocationAdapter;
 import co.com.crediya.api.security.JwtAuthorizationFilter;
 import co.com.crediya.api.security.JwtTokenProviderAdapter;
+import co.com.crediya.api.security.LoginRateLimiterFilter;
 import co.com.crediya.api.security.PBKDF2PasswordEncoderAdapter;
 import co.com.crediya.model.usuario.gateways.PasswordEncoderGateway;
 import co.com.crediya.model.usuario.gateways.TokenProviderGateway;
+import co.com.crediya.model.usuario.gateways.TokenRevocationGateway;
 import co.com.crediya.usecase.autenticacion.AutenticarUsuarioUseCase;
 import co.com.crediya.usecase.consultarsolicitudes.ConsultarSolicitudesRevisionUseCase;
 import co.com.crediya.usecase.registrarsolicitud.RegistrarSolicitudUseCase;
@@ -25,7 +28,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @ComponentScan(basePackages = "co.com.crediya.api",
         excludeFilters = @ComponentScan.Filter(
                 type = FilterType.ASSIGNABLE_TYPE,
-                classes = {CorsConfig.class, JwtAuthorizationFilter.class}
+                classes = {CorsConfig.class, JwtAuthorizationFilter.class, LoginRateLimiterFilter.class}
         ))
 @Import({ApiRest.class, SolicitudApiRest.class, LoginApiRest.class, GlobalExceptionHandler.class})
 public class TestConfig {

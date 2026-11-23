@@ -82,4 +82,15 @@ class LoginApiRestTest {
                 .jsonPath("$.error").isEqualTo("Error de Validación de Negocio")
                 .jsonPath("$.mensaje").isEqualTo("Credenciales de autenticacion invalidas");
     }
+
+    @Test
+    void shouldLogoutAndRevokeTokenSuccessfully() {
+        client.post()
+                .uri("/api/v1/login/logout")
+                .header("Authorization", "Bearer token.para.revocar")
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody()
+                .jsonPath("$.mensaje").isEqualTo("Sesion cerrada exitosamente y token revocado");
+    }
 }

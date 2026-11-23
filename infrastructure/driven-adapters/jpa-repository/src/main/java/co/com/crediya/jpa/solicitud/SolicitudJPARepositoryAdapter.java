@@ -12,7 +12,10 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Adaptador de infraestructura para la persistencia del agregado Solicitud en PostgreSQL.
@@ -56,5 +59,16 @@ public class SolicitudJPARepositoryAdapter extends AdapterOperations<Solicitud, 
         return repository.findAprobadasByDocumentoIdentidad(documentoIdentidad).stream()
                 .map(this::toEntity)
                 .toList();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Map<String, List<Solicitud>> buscarAprobadasPorDocumentos(Set<String> documentosIdentidad) {
+        if (documentosIdentidad == null || documentosIdentidad.isEmpty()) {
+            return Map.of();
+        }
+        return repository.findAprobadasByDocumentosIdentidad(documentosIdentidad).stream()
+                .map(this::toEntity)
+                .collect(Collectors.groupingBy(Solicitud::getDocumentoIdentidad));
     }
 }

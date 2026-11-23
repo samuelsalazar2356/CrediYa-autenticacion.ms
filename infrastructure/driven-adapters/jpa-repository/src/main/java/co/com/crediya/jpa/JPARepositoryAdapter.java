@@ -7,7 +7,10 @@ import org.reactivecommons.utils.ObjectMapper;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Repository
 public class JPARepositoryAdapter extends AdapterOperations<Usuario, UsuarioData, Long, JPARepository>
@@ -45,5 +48,16 @@ public class JPARepositoryAdapter extends AdapterOperations<Usuario, UsuarioData
     @Transactional(readOnly = true)
     public Optional<Usuario> buscarPorCedula(String cedula) {
         return repository.findByCedula(cedula).map(this::toEntity);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Map<String, Usuario> buscarPorCedulas(Set<String> cedulas) {
+        if (cedulas == null || cedulas.isEmpty()) {
+            return Map.of();
+        }
+        return repository.findByCedulaIn(cedulas).stream()
+                .map(this::toEntity)
+                .collect(Collectors.toMap(Usuario::getCedula, u -> u, (existente, reemplazo) -> existente));
     }
 }

@@ -96,4 +96,43 @@ class ConsultarSolicitudesRevisionUseCaseTest {
         assertNotNull(detalle.getDeudaTotalMensualSolicitudesAprobadas());
         assertFalse(detalle.getDeudaTotalMensualSolicitudesAprobadas().compareTo(BigDecimal.ZERO) == 0);
     }
+
+    @Test
+    void shouldBatchFetchUsersAndApprovedLoansWithoutNPlusOne() {
+        Solicitud solicitud = Solicitud.builder()
+                .id(11L)
+                .documentoIdentidad("11223344")
+                .monto(new BigDecimal("10000000"))
+                .plazoMeses(36)
+                .tipoPrestamo(TipoPrestamo.VEHICULO)
+                .estado("Revision manual")
+                .build();
+
+        Pagina<Solicitud> paginaSolicitudes = new Pagina<>(List.of(solicitud), 0, 10, 1);
+
+        Usuario usuario = Usuario.builder()
+                .cedula("11223344")
+                .nombres("Ana")
+                .apellidos("Gomez")
+                .correoElectronico("ana@crediya.com")
+                .salarioBase(new BigDecimal("6000000"))
+                .build();
+
+        when(solicitudRepository.buscarPorEstadosPaginado(anyList(), anyInt(), anyInt()))
+                .thenReturn(paginaSolicitudes);
+        when(usuarioRepository.buscarPorCedulas(org.mockito.ArgumentMatchers.anySet()))
+                .thenReturn(java.util.Map.of("11223344", usuario));
+        when(solicitudRepository.buscarAprobadasPorDocumentos(org.mockito.ArgumentMatchers.anySet()))
+                .thenReturn(java.util.Map.of("11223344", List.of()));
+
+        Pagina<SolicitudRevisionDetalle> resultado = useCase.consultar(0, 10, null);
+
+        assertNotNull(resultado);
+        assertEquals(1, resultado.getContenido().size());
+        SolicitudRevisionDetalle detalle = resultado.getContenido().get(0);
+        assertEquals("ana@crediya.com", detalle.getEmail());
+        assertEquals("Ana Gomez", detalle.getNombre());
+        assertEquals("Vehiculo", detalle.getTipoPrestamo());
+        assertEquals(BigDecimal.ZERO.setScale(2), detalle.getDeudaTotalMensualSolicitudesAprobadas());
+    }
 }
